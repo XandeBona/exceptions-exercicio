@@ -4,7 +4,7 @@ public class Account {
     private Double balance;
     private Double withdrawLimit;
 
-    public Account(){
+    public Account() {
 
     }
 
@@ -47,11 +47,22 @@ public class Account {
         this.withdrawLimit = withdrawLimit;
     }
 
-    public void deposit (double amount) {
+    public void deposit(double amount) {
         balance += amount;
     }
 
-    public void withdraw (double amount) {
+    public void withdraw(double amount) {
+        validateWithdraw(amount);
         balance -= amount;
+    }
+
+    private void validateWithdraw(double amount) {
+        if (amount > getWithdrawLimit()) {
+            throw new BusinessException("Erro de saque: A quantia excede o limite de saque");
+        }
+        if (amount > getBalance()) {
+            throw new BusinessException("Erro de saque: Saldo insuficiente");
+
+        }
     }
 }
